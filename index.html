@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="images/icon.png">
+<title>Time Duel Game</title>
+<meta name="description" content="Two things. One tap. Which came first? Time Duel is a timeline trivia game for iPhone by Cederberg Games.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  /* Layout: one centred column like the app's Neon Arcade screens. Single dark theme by choice. */
+  :root {
+    --bg: #0b0620; --panel: #1a1142; --card: #1f1552; --ink: #f3eeff; --muted: #b8acdf; --rule: #3a2e70;
+    --cyan: #22f2ff; --magenta: #ff3df2; --yellow: #ffe14d; --green: #2bea8e; --red: #ff3d8b;
+    --font-display: "Bungee", "Arial Black", Impact, sans-serif;
+    --font-body: "Nunito", -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background:
+      radial-gradient(700px 480px at 10% -10%, rgba(82, 34, 184, .6), transparent 70%),
+      radial-gradient(700px 480px at 110% 105%, rgba(163, 18, 122, .5), transparent 70%),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font: 400 17px/1.6 var(--font-body);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 28px 56px;
+  }
+  .wrap { max-width: 46rem; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+  a { color: var(--cyan); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+  .top { display: flex; align-items: center; gap: 12px; }
+  .top img { width: 48px; height: 48px; border-radius: 12px; box-shadow: 0 0 18px rgba(34,242,255,.35); }
+  .top .studio { font: 500 12px/1.3 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+  .top .studio b { display: block; color: var(--ink); font: 400 15px/1.2 var(--font-display); letter-spacing: 0; text-transform: none; }
+
+  .hero { display: flex; flex-direction: column; gap: 16px; }
+  .hero h1 { margin: 0; font: 400 clamp(36px, 10vw, 68px)/1.02 var(--font-display); text-wrap: balance; }
+  .hero h1 span { color: var(--magenta); text-shadow: 0 0 22px rgba(255,61,242,.6); }
+  .hero p { margin: 0; font-size: 19px; max-width: 34rem; }
+  .soon { align-self: flex-start; font: 500 13px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+          color: var(--yellow); border: 1.5px solid var(--yellow); border-radius: 999px; padding: 10px 14px;
+          box-shadow: 0 0 14px rgba(255,225,77,.25); }
+
+  h2 { margin: 0; font: 400 clamp(20px, 5vw, 26px)/1.15 var(--font-display); color: var(--cyan);
+       text-shadow: 0 0 14px rgba(34,242,255,.35); text-wrap: balance; }
+  section { display: flex; flex-direction: column; gap: 16px; }
+  .lead { margin: 0; color: var(--muted); }
+
+  /* Try-it demo */
+  .demo { background: var(--panel); border: 1px solid var(--rule); border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .q { font: 400 22px/1.1 var(--font-display); text-align: center;
+       background: linear-gradient(90deg, var(--cyan), var(--magenta)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cards { display: flex; flex-direction: column; gap: 0; align-items: stretch; }
+  .opt { appearance: none; width: 100%; border-radius: 18px; padding: 18px 16px; background: var(--card); color: var(--ink);
+         border: 2px solid var(--cyan); box-shadow: 0 0 14px rgba(34,242,255,.3); cursor: pointer; text-align: center;
+         font: 800 20px/1.25 var(--font-body); display: flex; flex-direction: column; gap: 4px; align-items: center;
+         transition: transform .15s ease, box-shadow .2s ease, background .2s ease; }
+  .opt + .vs + .opt { border-color: var(--magenta); box-shadow: 0 0 14px rgba(255,61,242,.3); }
+  .opt:hover { transform: translateY(-2px); }
+  .opt:disabled { cursor: default; transform: none; }
+  .opt small { font: 400 14px/1.4 var(--font-body); color: var(--muted); }
+  .opt .yr { font: 400 26px/1.1 var(--font-display); margin-top: 4px; }
+  .opt .tag { font: 500 11px/1 var(--font-mono); letter-spacing: .1em; }
+  .opt.first { border-color: var(--green) !important; background: #0f3a2c; box-shadow: 0 0 18px rgba(43,234,142,.45) !important; }
+  .opt.first .yr, .opt.first .tag { color: var(--green); }
+  .opt.wrong { border-color: var(--red) !important; background: #40122a; box-shadow: 0 0 18px rgba(255,61,139,.4) !important; }
+  .opt.wrong .yr, .opt.wrong .tag { color: var(--red); }
+  .opt.later .yr, .opt.later .tag { color: var(--muted); }
+  .vs { align-self: center; margin: -12px 0; z-index: 1; font: 400 14px/1 var(--font-display); color: var(--yellow);
+        background: var(--bg); border: 2px solid var(--yellow); border-radius: 12px; padding: 7px 12px;
+        box-shadow: 0 0 12px rgba(255,225,77,.5); transform: rotate(-4deg); }
+  .result { min-height: 3.2em; text-align: center; margin: 0; }
+  .result b { font-family: var(--font-display); font-weight: 400; }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .meta { font: 500 12px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .btn { appearance: none; border: 0; border-radius: 14px; padding: 12px 18px; cursor: pointer;
+         font: 400 15px/1 var(--font-display); color: var(--bg); background: var(--cyan); box-shadow: 0 0 16px rgba(34,242,255,.45); }
+  .btn.ghost { background: transparent; color: var(--cyan); border: 1.5px solid var(--cyan); box-shadow: none; }
+
+  /* Categories */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { border: 1.5px solid var(--rule); background: var(--card); border-radius: 999px; padding: 8px 14px; font-weight: 600; }
+  .chip.mix { border-style: dashed; border-color: var(--magenta); color: var(--magenta); }
+
+  /* Features */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 12px; }
+  .feature { background: var(--panel); border: 1px solid var(--rule); border-radius: 18px; padding: 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .feature h3 { margin: 0; font: 800 17px/1.3 var(--font-body); }
+  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+  .share { font-size: 14px; letter-spacing: 1px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+  .badges img { width: 72px; height: 72px; }
+
+  /* Support */
+  .support { background: var(--panel); border: 1px solid var(--rule); border-radius: 22px; padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .mail { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .mail code { font: 500 16px/1.4 var(--font-mono); color: var(--yellow); user-select: all; overflow-wrap: anywhere; }
+  footer { color: var(--muted); font-size: 14px; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <img src="images/icon.png" alt="App icon: 1ST versus a question mark in neon">
+    <div class="studio">Cederberg Games<b>Time Duel: Which Came First</b></div>
+  </header>
+
+  <section class="hero">
+    <h1>Which came <span>first?</span></h1>
+    <p>Two things. One tap. Pick the one that came first, then see how far apart they really were. A timeline trivia game for iPhone.</p>
+    <span class="soon">Time Duel · Coming soon to the App Store</span>
+  </section>
+
+  <section aria-labelledby="try">
+    <h2 id="try">Try a round</h2>
+    <div class="demo">
+      <div class="row"><span class="meta" id="count">Matchup 1 of 5</span><span class="meta" id="score">Score 0</span></div>
+      <div class="q" id="question">What came first?</div>
+      <div class="cards">
+        <button class="opt" id="a" type="button"></button>
+        <span class="vs" aria-hidden="true">VS</span>
+        <button class="opt" id="b" type="button"></button>
+      </div>
+      <p class="result" id="result" aria-live="polite">Tap the one you think came first.</p>
+      <div class="row" style="justify-content:flex-end"><button class="btn" id="next" type="button" hidden>Next</button></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="cats">
+    <h2 id="cats">7 categories, 1,200+ questions</h2>
+    <div class="chips">
+      <span class="chip">Inventions</span><span class="chip">Movies</span><span class="chip">Books</span>
+      <span class="chip">Famous births</span><span class="chip">Human achievements</span><span class="chip">Brands</span>
+      <span class="chip mix">Time Machine: all mixed</span>
+    </div>
+    <p class="lead">Every game is 10 matchups that get harder as you go. The first may be centuries apart. By the tenth, there's only a year between them.</p>
+  </section>
+
+  <section aria-labelledby="feat">
+    <h2 id="feat">What's inside</h2>
+    <div class="features">
+      <div class="feature"><h3>Daily challenge</h3><p>The same 10 questions for everyone, every day. One try. Share your result:</p><p class="share" aria-label="Example result: 8 right, 2 wrong">🟩🟩🟥🟩🟩🟩🟥🟩🟩🟩</p></div>
+      <div class="feature"><h3>Beat the clock</h3><p>Turn on the timer: 15 seconds per question, and the faster you answer, the more points you get.</p></div>
+      <div class="feature"><h3>Streaks and badges</h3><p>Play every day for bonus lives and unlock 11 badges.</p>
+        <div class="badges">
+          <img src="images/badge_fullPot.png" alt="Full pot badge"><img src="images/badge_onARoll.png" alt="On a roll badge"><img src="images/badge_lightningFast.png" alt="Lightning fast badge">
+          <img src="images/badge_master.png" alt="Master of time badge"><img src="images/badge_daily.png" alt="Daily habit badge"><img src="images/badge_weekStreak.png" alt="Week streak badge">
+        </div></div>
+      <div class="feature"><h3>Made with care</h3><p>Two styles, Neon Arcade and Classic. An original chill-jazz soundtrack. English and Swedish. Works offline.</p></div>
+    </div>
+  </section>
+
+  <section class="support" id="support" aria-labelledby="sup">
+    <h2 id="sup">Support</h2>
+    <p class="lead" style="color:var(--ink)">Found a wrong answer, have an idea, or need help with a purchase? Write to us. We usually reply within a few days.</p>
+    <div class="mail"><code id="email">mcederberg90@gmail.com</code><button class="btn ghost" id="copy" type="button">Copy</button></div>
+    <p class="lead">Answers to common questions, and how the game handles your data, are in the <a href="privacy.html">privacy policy and support page</a>.</p>
+  </section>
+
+  <footer>
+    <span>© 2026 Cederberg Games · Time Duel</span>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="privacy.html#sv">Integritetspolicy på svenska</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var rounds = [
+    { q: "What came first?", a: ["The telephone", "Invention", 1876, "Alexander Graham Bell's patent."], b: ["The fax machine", "Invention", 1843, "Alexander Bain's first patent."],
+      fact: "The fax machine came 33 years before the telephone!" },
+    { q: "Which was founded first?", a: ["IKEA", "Brand", 1943, "Swedish flat-pack furniture."], b: ["LEGO", "Brand", 1932, "Danish plastic bricks."],
+      fact: "LEGO is 11 years older than IKEA." },
+    { q: "What came first?", a: ["Coca-Cola", "Brand", 1886, "First sold at a pharmacy in Atlanta."], b: ["The Eiffel Tower", "Achievement", 1889, "Finished for the World's Fair in Paris."],
+      fact: "Coca-Cola beat the Eiffel Tower by three years." },
+    { q: "Which was published first?", a: ["Frankenstein", "Book", 1818, "Mary Shelley's living creature."], b: ["Pride and Prejudice", "Book", 1813, "Elizabeth Bennet meets Mr Darcy."],
+      fact: "Pride and Prejudice came five years before Frankenstein." },
+    { q: "What happened first?", a: ["The first Olympic Games", "Achievement", -776, "Athletes race at Olympia."], b: ["The Great Pyramid is completed", "Achievement", -2560, "Pharaoh Khufu's tomb in Egypt."],
+      fact: "The pyramid was already about 1,800 years old at the first Olympics." }
+  ];
+  var i = 0, score = 0, answered = false;
+  var $ = function (id) { return document.getElementById(id); };
+  function yr(y) { return y < 0 ? (y === -2560 ? "c. 2560 BC" : (-y) + " BC") : String(y); }
+  function fill(btn, o) {
+    btn.className = "opt"; btn.disabled = false;
+    btn.innerHTML = '<span class="tag"></span><span class="nm"></span><small></small>';
+    btn.querySelector(".nm").textContent = o[0];
+    btn.querySelector("small").textContent = o[3];
+    btn.querySelector(".tag").textContent = o[1].toUpperCase();
+    btn.setAttribute("aria-label", o[0] + ". " + o[3]);
+  }
+  function show() {
+    var r = rounds[i]; answered = false;
+    $("question").textContent = r.q;
+    $("count").textContent = "Matchup " + (i + 1) + " of " + rounds.length;
+    fill($("a"), r.a); fill($("b"), r.b);
+    $("result").textContent = "Tap the one you think came first.";
+    $("next").hidden = true;
+  }
+  function pick(which) {
+    if (answered) return; answered = true;
+    var r = rounds[i];
+    var firstKey = r.a[2] < r.b[2] ? "a" : "b";
+    ["a", "b"].forEach(function (k) {
+      var btn = $(k), o = r[k];
+      btn.disabled = true;
+      var state = k === firstKey ? "first" : (k === which ? "wrong" : "later");
+      btn.classList.add(state);
+      var y = document.createElement("span"); y.className = "yr"; y.textContent = yr(o[2]);
+      btn.appendChild(y);
+      btn.querySelector(".tag").textContent = state === "first" ? "CAME FIRST" : (state === "wrong" ? "YOUR GUESS" : "CAME LATER");
+    });
+    var right = which === firstKey;
+    if (right) score++;
+    $("score").textContent = "Score " + score;
+    $("result").innerHTML = "<b>" + (right ? "Correct!" : "Not quite.") + "</b> " + r.fact;
+    $("next").hidden = false;
+    $("next").textContent = i === rounds.length - 1 ? "Play again" : "Next";
+    $("next").focus({ preventScroll: true });
+  }
+  $("a").addEventListener("click", function () { pick("a"); });
+  $("b").addEventListener("click", function () { pick("b"); });
+  $("next").addEventListener("click", function () {
+    if (i === rounds.length - 1) { i = 0; score = 0; $("score").textContent = "Score 0"; } else { i++; }
+    show();
+  });
+  $("copy").addEventListener("click", function () {
+    var text = $("email").textContent, btn = this;
+    function done() { btn.textContent = "Copied"; setTimeout(function () { btn.textContent = "Copy"; }, 1600); }
+    function fallback() { var r = document.createRange(); r.selectNodeContents($("email")); var s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected"; }
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  });
+  show();
+})();
+</script>
+</body>
+</html>

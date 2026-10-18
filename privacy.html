@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="images/icon.png">
+<title>Time Duel Privacy &amp; Support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+  /* Layout: one readable column, styled like the app's Neon Arcade look. Single dark theme by choice. */
+  :root {
+    --bg: #0b0620;
+    --panel: #1a1142;
+    --ink: #f3eeff;
+    --muted: #b8acdf;
+    --rule: #3a2e70;
+    --cyan: #22f2ff;
+    --magenta: #ff3df2;
+    --yellow: #ffe14d;
+    --font-display: "Bungee", "Arial Black", Impact, sans-serif;
+    --font-body: "Source Sans 3", -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background:
+      radial-gradient(600px 400px at 10% -5%, rgba(82, 34, 184, .55), transparent 70%),
+      radial-gradient(600px 400px at 105% 100%, rgba(163, 18, 122, .45), transparent 70%),
+      var(--bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    font: 400 17px/1.6 var(--font-body);
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 32px 64px;
+  }
+  .wrap { max-width: 44rem; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+  header { display: flex; flex-direction: column; gap: 14px; }
+  .logo { font: 400 clamp(28px, 7vw, 44px)/1.05 var(--font-display); margin: 0; text-wrap: balance; }
+  .logo span { color: var(--magenta); text-shadow: 0 0 18px rgba(255, 61, 242, .55); }
+  .sub { color: var(--muted); margin: 0; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px; }
+  nav a {
+    font: 500 13px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase;
+    color: var(--cyan); text-decoration: none; padding: 9px 12px;
+    border: 1.5px solid var(--rule); border-radius: 999px;
+  }
+  nav a:hover, nav a:focus-visible { border-color: var(--cyan); box-shadow: 0 0 12px rgba(34, 242, 255, .35); outline: none; }
+
+
+  section.lang { display: flex; flex-direction: column; gap: 22px; scroll-margin-top: 16px; }
+  .lang-tag { font: 500 12px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  h2 { font: 400 clamp(20px, 4.6vw, 26px)/1.15 var(--font-display); color: var(--cyan); margin: 0; text-wrap: balance;
+       text-shadow: 0 0 14px rgba(34, 242, 255, .35); }
+  h3 { font: 700 19px/1.3 var(--font-body); margin: 0; color: var(--ink); }
+  p, ul { margin: 0; }
+  ul { padding-left: 1.2em; display: flex; flex-direction: column; gap: 6px; }
+  li::marker { color: var(--magenta); }
+  a { color: var(--cyan); }
+  .card {
+    background: var(--panel); border: 1px solid var(--rule); border-radius: 18px;
+    padding: 20px; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+  }
+  .meta { font: 500 12px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .mail { color: var(--yellow); font-family: var(--font-mono); font-size: .92em; user-select: all; overflow-wrap: anywhere; }
+  dl { margin: 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; }
+  dt { color: var(--muted); }
+  dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+  .faq { display: flex; flex-direction: column; gap: 14px; }
+  .faq div { display: flex; flex-direction: column; gap: 4px; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 8px 0; width: 100%; }
+  footer { color: var(--muted); font-size: 14px; }
+  @media (max-width: 420px) { dl { grid-template-columns: 1fr; } dt { margin-top: 6px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 class="logo">Which came <span>first?</span></h1>
+    <p class="sub">Privacy policy and support for Time Duel: Which Came First, the iPhone quiz game by Cederberg Games. Svensk version längre ner.</p>
+    <nav aria-label="Language">
+      <a href="#en">English</a>
+      <a href="#sv">Svenska</a>
+      <a href="#support">Support</a>
+      <a href="index.html">Home</a>
+    </nav>
+  </header>
+
+  <section class="lang" id="en" lang="en">
+    <span class="lang-tag">English</span>
+    <h2>Privacy policy</h2>
+    <p class="meta">Effective 18 October 2026 · Version 1.0</p>
+
+    <div class="card">
+      <h3>Who we are</h3>
+      <p>"Time Duel: Which Came First" is made by Cederberg Games, run by Magnus Cederberg in Sweden. Questions about this policy: <span class="mail">mcederberg90@gmail.com</span>.</p>
+      <p>The game has no accounts and no servers of its own. We do not collect, receive or sell your personal data.</p>
+    </div>
+
+    <div class="card">
+      <h3>What stays on your phone</h3>
+      <p>The game saves these things on your iPhone only. They are never sent to us:</p>
+      <ul>
+        <li>Your game results and statistics</li>
+        <li>Lives, day streak, achievements and daily challenge results</li>
+        <li>Settings such as sound, music, haptics, style and language</li>
+      </ul>
+      <p>Deleting the app deletes all of it.</p>
+    </div>
+
+    <div class="card">
+      <h3>Ads (Google AdMob)</h3>
+      <p>The free game shows ads from Google AdMob between some games, and an optional ad you can watch for an extra life. Google may collect and use the following to show and measure ads:</p>
+      <ul>
+        <li>Device identifiers, including the advertising identifier (IDFA) if you allow tracking</li>
+        <li>Approximate location, based on your IP address</li>
+        <li>Advertising data and how you interact with ads</li>
+        <li>Crash and performance data from the ads SDK</li>
+      </ul>
+      <p>If you are in the EU, EEA, UK or Switzerland, the game asks for your consent before ads load. You can change your choice any time in the game under Settings → Ad privacy settings. iOS also asks whether the app may track you; the game works the same whatever you answer, and you can change it in the iPhone Settings app under Privacy &amp; Security → Tracking.</p>
+      <p>Read how Google uses data: <a href="https://policies.google.com/technologies/partner-sites" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Game Center</h3>
+      <p>If you are signed in to Game Center, your scores and achievements are sent to Apple's Game Center so they can appear on leaderboards with your Game Center nickname. Apple handles this data under <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple's privacy policy</a>. You can sign out of Game Center in the iPhone Settings app.</p>
+    </div>
+
+    <div class="card">
+      <h3>Purchases</h3>
+      <p>The "Remove ads" purchase is handled by Apple through the App Store. We never see your payment details. Restoring a purchase also goes through Apple.</p>
+    </div>
+
+    <div class="card">
+      <h3>Children</h3>
+      <p>The game is a general trivia game and is not aimed at children under 13. We do not knowingly collect data from children.</p>
+    </div>
+
+    <div class="card">
+      <h3>Changes</h3>
+      <p>If this policy changes, the new version is posted on this page with a new effective date.</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="lang" id="sv" lang="sv">
+    <span class="lang-tag">Svenska</span>
+    <h2>Integritetspolicy</h2>
+    <p class="meta">Gäller från 18 oktober 2026 · Version 1.0</p>
+
+    <div class="card">
+      <h3>Vilka vi är</h3>
+      <p>"Time Duel: Which Came First" görs av Cederberg Games, som drivs av Magnus Cederberg i Sverige. Frågor om policyn: <span class="mail">mcederberg90@gmail.com</span>.</p>
+      <p>Spelet har inga konton och inga egna servrar. Vi samlar inte in, tar inte emot och säljer inte dina personuppgifter.</p>
+    </div>
+
+    <div class="card">
+      <h3>Det som stannar i din telefon</h3>
+      <p>Spelet sparar följande bara på din iPhone. Det skickas aldrig till oss:</p>
+      <ul>
+        <li>Dina resultat och din statistik</li>
+        <li>Liv, svit, utmärkelser och resultat från dagens utmaning</li>
+        <li>Inställningar som ljud, musik, vibrationer, stil och språk</li>
+      </ul>
+      <p>Om du raderar appen raderas allt detta.</p>
+    </div>
+
+    <div class="card">
+      <h3>Annonser (Google AdMob)</h3>
+      <p>Gratisspelet visar annonser från Google AdMob mellan vissa matcher, och en frivillig annons som du kan titta på för ett extra liv. Google kan samla in och använda följande för att visa och mäta annonser:</p>
+      <ul>
+        <li>Enhets-id, inklusive annons-id (IDFA) om du tillåter spårning</li>
+        <li>Ungefärlig plats, utifrån din IP-adress</li>
+        <li>Annonsdata och hur du interagerar med annonser</li>
+        <li>Krasch- och prestandadata från annonsverktyget</li>
+      </ul>
+      <p>Om du befinner dig i EU, EES, Storbritannien eller Schweiz frågar spelet om ditt samtycke innan annonser laddas. Du kan ändra ditt val när som helst i spelet under Inställningar → Integritetsval för annonser. iOS frågar också om appen får spåra dig. Spelet fungerar likadant oavsett svar, och du kan ändra det i iPhonens Inställningar under Integritet och säkerhet → Spårning.</p>
+      <p>Läs hur Google använder data: <a href="https://policies.google.com/technologies/partner-sites?hl=sv" target="_blank" rel="noopener">policies.google.com/technologies/partner-sites</a>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Game Center</h3>
+      <p>Om du är inloggad i Game Center skickas dina poäng och utmärkelser till Apples Game Center, så att de kan visas på topplistor med ditt Game Center-namn. Apple hanterar dessa uppgifter enligt <a href="https://www.apple.com/se/legal/privacy/" target="_blank" rel="noopener">Apples integritetspolicy</a>. Du kan logga ut ur Game Center i iPhonens Inställningar.</p>
+    </div>
+
+    <div class="card">
+      <h3>Köp</h3>
+      <p>Köpet "Ta bort annonser" hanteras av Apple via App Store. Vi ser aldrig dina betalningsuppgifter. Att återställa ett köp går också via Apple.</p>
+    </div>
+
+    <div class="card">
+      <h3>Barn</h3>
+      <p>Spelet är ett frågespel för alla och riktar sig inte till barn under 13 år. Vi samlar inte medvetet in uppgifter från barn.</p>
+    </div>
+
+    <div class="card">
+      <h3>Ändringar</h3>
+      <p>Om policyn ändras publiceras den nya versionen på den här sidan med ett nytt datum.</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section class="lang" id="support">
+    <span class="lang-tag">Support · Hjälp</span>
+    <h2>Support</h2>
+
+    <div class="card">
+      <h3>Contact · Kontakt</h3>
+      <dl>
+        <dt>Email · E-post</dt><dd class="mail">mcederberg90@gmail.com</dd>
+        <dt>Developer · Utvecklare</dt><dd>Cederberg Games (Magnus Cederberg)</dd>
+        <dt>Reply time · Svarstid</dt><dd>Usually within a few days · Oftast inom några dagar</dd>
+      </dl>
+    </div>
+
+    <div class="card faq" lang="en">
+      <h3>Common questions</h3>
+      <div><strong>How do lives work?</strong><p>Each game costs a life. You get 5 every day, and a new one every 30 minutes. Watch a short ad for one more right away. Playing several days in a row gives bonus lives on day 3, 7, 14 and every 7th day after that.</p></div>
+      <div><strong>What is the daily challenge?</strong><p>Ten Time Machine questions that are the same for every player that day. It's free and you get one try. Share your result with the share button.</p></div>
+      <div><strong>I bought Remove ads on another phone.</strong><p>Open Settings in the game and tap Restore purchases, signed in with the same Apple ID.</p></div>
+      <div><strong>How do I change the language?</strong><p>Settings → Language. "Phone" follows your iPhone's language.</p></div>
+      <div><strong>I found a wrong answer.</strong><p>Email us the question and what you think is right. We check every report.</p></div>
+    </div>
+
+    <div class="card faq" lang="sv">
+      <h3>Vanliga frågor</h3>
+      <div><strong>Hur fungerar liven?</strong><p>Varje match kostar ett liv. Du får 5 varje dag och ett nytt var 30:e minut. Titta på en kort annons för att få ett direkt. Spelar du flera dagar i rad får du extraliv dag 3, 7, 14 och var 7:e dag därefter.</p></div>
+      <div><strong>Vad är dagens utmaning?</strong><p>Tio frågor från Tidsmaskinen som är samma för alla spelare den dagen. Den är gratis och du får ett försök. Dela ditt resultat med dela-knappen.</p></div>
+      <div><strong>Jag köpte Ta bort annonser på en annan telefon.</strong><p>Öppna Inställningar i spelet och tryck på Återställ köp, inloggad med samma Apple-ID.</p></div>
+      <div><strong>Hur byter jag språk?</strong><p>Inställningar → Språk. "Telefonens" följer språket på din iPhone.</p></div>
+      <div><strong>Jag hittade ett felaktigt svar.</strong><p>Mejla oss frågan och vad du tror är rätt. Vi kollar varje rapport.</p></div>
+    </div>
+  </section>
+
+  <footer>© 2026 Cederberg Games · Time Duel: Which Came First · <a href="index.html">Home</a></footer>
+</div>
+</body>
+</html>
