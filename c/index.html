@@ -55,14 +55,20 @@
   <div id="details"></div>
   <a class="btn" id="open" href="#">Open in Time Duel</a>
   <p class="small" id="get">Don't have the game yet? Time Duel is coming soon to the App Store. <a href="../">Read more</a></p>
+  <template id="get-sv">Har du inte spelet än? Time Duel kommer snart till App Store. <a href="../">Läs mer</a></template>
 </main>
 
 <script>
 (function () {
+  // Swedish for Swedish phones, English for everyone else (like the game).
+  var sv = /^sv/i.test(navigator.language || "");
+  if (sv) document.documentElement.lang = "sv";
+  function T(en, swe) { return sv ? swe : en; }
   var params = new URLSearchParams(location.search);
   var d = params.get("d"), r = params.get("r");
   var raw = d || r;
   var title = document.getElementById("title"), details = document.getElementById("details"), open = document.getElementById("open");
+  if (sv) document.getElementById("get").innerHTML = document.getElementById("get-sv").innerHTML;
   function decode(s) {
     try {
       var b64 = s.replace(/-/g, "+").replace(/_/g, "/");
@@ -71,32 +77,39 @@
       return JSON.parse(new TextDecoder().decode(bytes));
     } catch (e) { return null; }
   }
-  function num(n) { return Number(n || 0).toLocaleString("en-GB"); }
-  var cats = { inventions: "Inventions", movies: "Movies", books: "Books", people: "Famous births",
-               achievements: "Human achievements", brands: "Brands", mix: "Shuffle" };
+  // Points are shown within what a real game can give, whatever the link says.
+  function num(n) { n = Math.max(0, Math.min(2000, Math.round(Number(n) || 0))); return n.toLocaleString(sv ? "sv-SE" : "en-GB"); }
+  function name(t) { t = String(t || "").replace(/\s+/g, " ").trim().slice(0, 20); return t || T("A friend", "En vän"); }
+  var cats = sv
+    ? { inventions: "Uppfinningar", movies: "Filmer", books: "Böcker", people: "Kända födslar",
+        achievements: "Mänskliga bedrifter", brands: "Varumärken", mix: "Blanda" }
+    : { inventions: "Inventions", movies: "Movies", books: "Books", people: "Famous births",
+        achievements: "Human achievements", brands: "Brands", mix: "Shuffle" };
   var data = raw ? decode(raw) : null;
   if (!data) {
-    title.innerHTML = "This link doesn't work";
-    details.innerHTML = '<p class="muted">It may have been cut off when it was copied. Ask your friend to send it again.</p>';
+    title.textContent = T("This link doesn't work", "Länken fungerar inte");
+    details.innerHTML = '<p class="muted">' + T("It may have been cut off when it was copied. Ask your friend to send it again.",
+                                                 "Den kan ha klippts av när den kopierades. Be din vän skicka den igen.") + '</p>';
     open.hidden = true;
     return;
   }
   open.href = "timeduel://c?" + (d ? "d=" : "r=") + encodeURIComponent(raw);
   function esc(t) { var el = document.createElement("span"); el.textContent = t || ""; return el.innerHTML; }
+  var from = esc(name(data.from));
   if (d) {
-    title.innerHTML = esc(data.from) + " challenges <span>you!</span>";
+    title.innerHTML = T(from + " challenges <span>you!</span>", from + " utmanar <span>dig!</span>");
     details.innerHTML =
-      '<div class="label">Points to beat</div><div class="points">' + num(data.points) + '</div>' +
-      '<p class="muted">' + esc(cats[data.cat] || "") + ' · the same 10 questions · 15 seconds each</p>';
-    open.textContent = "Accept in Time Duel";
+      '<div class="label">' + T("Points to beat", "Poäng att slå") + '</div><div class="points">' + num(data.points) + '</div>' +
+      '<p class="muted">' + esc(cats[data.cat] || "") + T(" · the same 10 questions · 15 seconds each", " · samma 10 frågor · 15 sekunder per fråga") + '</p>';
+    open.textContent = T("Accept in Time Duel", "Anta i Time Duel");
   } else {
-    var mine = data.toPoints, theirs = data.points;
-    var verdict = mine > theirs ? "You won!" : (mine < theirs ? esc(data.from) + " won" : "It's a tie!");
-    title.innerHTML = esc(data.from) + " played <span>your challenge</span>";
+    var mine = Number(data.toPoints) || 0, theirs = Number(data.points) || 0;
+    var verdict = mine > theirs ? T("You won!", "Du vann!") : (mine < theirs ? from + T(" won", " vann") : T("It's a tie!", "Oavgjort!"));
+    title.innerHTML = T(from + " played <span>your challenge</span>", from + " spelade <span>din utmaning</span>");
     details.innerHTML =
       '<div class="points" style="font-size:clamp(30px,9vw,40px)">' + verdict + '</div>' +
-      '<p class="muted">You ' + num(mine) + ' points · ' + esc(data.from) + ' ' + num(theirs) + ' points</p>';
-    open.textContent = "Count it in Time Duel";
+      '<p class="muted">' + T("You ", "Du ") + num(mine) + T(" points · ", " poäng · ") + from + ' ' + num(theirs) + T(" points", " poäng") + '</p>';
+    open.textContent = T("Count it in Time Duel", "Räkna in det i Time Duel");
   }
 })();
 </script>
